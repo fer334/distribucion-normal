@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <title>D3 Sample</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+  </head>
+  <body>
+    <!-- This will serve as a container for our chart. This does not have to be a div, and can in fact, just be the body if you want. -->
+    <div class="container">
+      <h2 class=" text-center">Calculadora de</h2>
+      <h2 class="display-3 text-center">Distribución normal</h2>
+      <hr>
+      <h3 class="text-center">X∼N(μ,σ)</h3>
+      <hr>
+      <!-- <form class="form-inline d-flex justify-content-center"> -->
+        <div class="d-flex justify-content-center align-items-center py-2">
+          <button id="random" type="button" class="btn btn-outline-primary"> &#8651;</button>
+          <p>&nbsp;&nbsp;</p>
+          <input class="form-control" type="text" id="input" placeholder="ejemplo P(X>=0.1)" style="width: 200px;">
+          <p>&nbsp;&nbsp;</p>
+          <small style="font-size:20px">= </small>
+          <p>&nbsp;&nbsp;</p>
+          <small style="font-size:20px" id="res"> dasf </small>
+        </div>
+
+        <div id='alert' class="d-flex justify-content-center alert alert-warning invisible" role="alert">
+          Expresion invalida, verifique o pulse el boton &#8651; para obtener un ejemplo aleatorio 
+        </div>
+      <!-- </form> -->
+      <hr>
+      <!-- <form class="form-inline d-flex justify-content-center">
+        <div class="form-group">
+          <input type="text" name="" id="selx" class="form-control" placeholder="x ∈ ℝ" style="width: 100px;">
+          <select id="inputState" class="form-control">
+            <option selected>P(X>=x)</option>
+            <option>P(X<=x)</option>
+          </select>
+          <small style="font-size:20px" id="res">= dasf</small>
+        </div>
+      </form> -->
+      <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+          aria-controls="collapseExample">
+          Editar μ y σ
+        </a>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <form>
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="First name">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Last name">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+            
+      <div id="my-chart">
+      </div>
+    </div>
+
+    <!-- Include d3.js from a CDN. -->
+    <script type="text/javascript" src="d3.v6.js"></script>
+
+    <!-- Include our script that will make our bar chart. -->
+    <script type="module" src="chart.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
