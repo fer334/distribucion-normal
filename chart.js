@@ -25,14 +25,14 @@ const inputChange=e=>{
         if (condition=='>') mayorQue = true;
         else mayorQue=false;
         
-        // normalGraph({margin,width,height,ini,fin,mayorQue});
+        normalGraph({margin,width,height,ini,fin,mayorQue});
     } else{
         document.getElementById('alert').classList.remove('invisible')
         document.getElementById('alert').classList.add('visible')
     }
     
 }
-        normalGraph({margin,width,height,ini,fin,mayorQue});
+        // normalGraph({margin,width,height,ini,fin,mayorQue});
 
 document.getElementById('input').addEventListener('input', inputChange)
 
