@@ -18,32 +18,13 @@ const error = (x) => {
   if (x) document.getElementById("alert").innerHTML = d + x;
   else document.getElementById("alert").innerHTML = d;
 };
+// const regex = /P\((.)((<|>)=*)(-{0,1}[0-9]+\.{0,1}[0-9]*)\)/g;
+const regex = /P\((.)((<|>)=?)(\-?[0-9]+\.?[0-9]*)\)/i;
 
 const inputChange = (e) => {
   document.getElementById("alert").classList.add("invisible");
   document.getElementById("alert").classList.remove("visible");
 
-  const isNumber = /-{0,1}[0-9]+\.{0,1}[0-9]*/g;
-
-  let k = document.getElementById("k").value;
-  let mu = document.getElementById("mu").value;
-  let sigma = document.getElementById("sigma").value;
-
-  if (!isNumber.test(k) && k != "") error(". k debe ser un numero");
-  if (!isNumber.test(sigma) && sigma != "") error(". σ debe ser un numero");
-  else if (+sigma <= 0 && sigma != "") error(". σ>0");
-  if (!isNumber.test(mu) && mu != "") error(". μ debe ser un numero");
-
-  console.log(!isNumber.test(sigma), sigma, +sigma, +sigma <= 0);
-  k = +k;
-  sigma = +sigma;
-  mu = +mu;
-
-  k = k ? k : 1;
-  mu = mu ? mu : 0;
-  sigma = sigma ? sigma : 1;
-
-  const regex = /P\((.)((<|>)=*)(-{0,1}[0-9]+\.{0,1}[0-9]*)\)/g;
   const input = document.getElementById("input").value;
   const inputA = regex.exec(input);
   if (inputA) {
@@ -54,11 +35,83 @@ const inputChange = (e) => {
     else mayorQue = false;
 
     normalGraph({ margin, width, height, ini, fin, mayorQue });
-  } else error();
+  } else error("bb");
 };
 // normalGraph({margin,width,height,ini,fin,mayorQue});
 
+const inputChange2 = () => {
+  document.getElementById("alert").classList.add("invisible");
+  document.getElementById("alert").classList.remove("visible");
+
+  const isNumber = /-?[0-9]+\.?[0-9]*/i;
+
+  let mu = document.getElementById("mu").value;
+  let sigma = document.getElementById("sigma").value;
+
+  if (!isNumber.test(sigma) && sigma != "")
+    return error(". σ debe ser un numero");
+  else if (+sigma <= 0 && sigma != "") return error(". σ>0");
+  if (!isNumber.test(mu) && mu != "") return error(". μ debe ser un numero");
+
+  mu = +mu ? +mu : 0;
+  sigma = +sigma ? +sigma : 1;
+
+  console.log(mu, sigma);
+  const i = document.getElementById("input2").value + "";
+  console.log(i);
+
+  const inputB = regex.exec(i);
+  console.log(inputB);
+  if (inputB) {
+    const x = +inputB[4];
+    const t = i.replace(isNumber, (x - mu) / sigma);
+    document.getElementById("input").value = t;
+    inputChange();
+  } else return error("DFs");
+
+  let t = "= ";
+  let t2 = "";
+  if (i[3] == ">") {
+    t += (document.getElementById("input").value + "").replace(
+      /((<|>)=?)/i,
+      "≥"
+    );
+    t2 += (document.getElementById("input2").value + "").replace(
+      /((<|>)=?)/i,
+      "≥"
+    );
+  } else {
+    t += (document.getElementById("input").value + "").replace(
+      /((<|>)=?)/i,
+      "≤"
+    );
+    t2 += (document.getElementById("input2").value + "").replace(
+      /((<|>)=?)/i,
+      "≤"
+    );
+  }
+  t2 += `; μ:${mu}; σ:${sigma}`;
+  t += `; μ:${0}; σ:${1}`;
+  document.getElementById("res2").innerHTML = t2;
+  document.getElementById("res3").innerHTML = t;
+  document.getElementById("res4").innerHTML =
+    "= " + document.getElementById("res").innerHTML;
+};
+
+const resChange = (value) => {
+  collapse = document.getElementById("alert").classList.contains("show");
+  if (collapse) {
+    document.getElementById("res2").value = value;
+  }
+};
+
 document.getElementById("input").addEventListener("input", inputChange);
-document.getElementById("mu").addEventListener("input", inputChange);
-document.getElementById("sigma").addEventListener("input", inputChange);
-document.getElementById("k").addEventListener("input", inputChange);
+document.getElementById("mu").addEventListener("input", inputChange2);
+document.getElementById("sigma").addEventListener("input", inputChange2);
+document.getElementById("input2").addEventListener("input", inputChange2);
+document.getElementById("random").addEventListener("click", (e) => {
+  document.getElementById("input").value = `P(X${
+    Math.random(1) > 0.5 ? ">" : "<"
+  }=${Math.round((Math.random() * 8 - 4) * 100) / 100})`;
+  inputChange();
+});

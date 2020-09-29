@@ -12,8 +12,8 @@
 <body>
   <!-- This will serve as a container for our chart. This does not have to be a div, and can in fact, just be the body if you want. -->
   <div class="container">
-    <h2 class=" text-center">Calculadora de</h2>
-    <h2 class="display-3 text-center">Distribución normal</h2>
+    <h3 class=" text-center">Calculadora de</h3>
+    <h3 class="display-3 text-center">Distribución normal</h3>
     <hr>
     <h3 class="text-center">X∼N(μ,σ)</h3>
     <hr>
@@ -23,13 +23,23 @@
     </div>
     
     <div class="d-flex justify-content-center align-items-center py-2">
-      <button id="random" type="button" class="btn btn-outline-primary"> &#8651;</button>
-      <p>&nbsp;&nbsp;</p>
-      <input class="form-control" type="text" id="input" placeholder="ejemplo P(X>=0.1)" style="width: 200px;">
-      <p>&nbsp;&nbsp;</p>
-      <small style="font-size:20px">= </small>
-      <p>&nbsp;&nbsp;</p>
-      <small style="font-size:20px" id="res"></small>
+      <div class="row container">
+        <div class="col-2 col-md-1 my-0">
+          <button id="random" type="button" class="btn btn-outline-primary"> &#8651;</button>
+        </div>
+        <div class="col-10 col-md-6">
+          <input class="form-control" type="text" id="input" placeholder="ejemplo P(X>=0.1)" >
+        </div>
+        <div class="col-2 col-md-1">
+        <small  style="font-size:20px">= </small>
+        </div>
+        <div class="col-10 col-md-4">
+          <small  style="font-size:20px" id="res"></small>
+        </div>
+        <!-- <p class='col-sm-1'>&nbsp;&nbsp;</p> -->
+        <!-- <p>&nbsp;&nbsp;</p> -->
+        <!-- <p>&nbsp;&nbsp;</p> -->
+      </div>
     </div>
 
     <!-- </form> -->
@@ -45,40 +55,42 @@
         </div>
       </form> -->
     <div class="d-flex justify-content-end">
-      <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+      <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
         aria-controls="collapseExample">
-        Editar μ y σ
+        cambiar μ y σ
       </a>
     </div>
     <div class="collapse" id="collapseExample">
       <div class="card card-body">
         <div class="row">
-          <div class="col input-group">
+          <div class="col-md-4 col-sm-6 input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">μ</div>
             </div>
             <input id="mu" type="text" class="form-control" placeholder="μ ∈ ℝ">
           </div>
-          <div class="col input-group">
+          <div class="col-md-4 col-sm-6 input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">σ</div>
             </div>
             <input id="sigma" type="text" class="form-control" placeholder="σ > 0">
           </div>
-          <div class="col input-group">
+          <div class="col-md-4 col-sm-6 input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">k</div>
             </div>
-            <input id="k" type="text" class="form-control" placeholder="k ∈ ℝ">
+            <input id="input2" type="text" class="form-control" placeholder="k ∈ ℝ">
           </div>
         </div>
       </div>
     </div>
 
     <div id="my-chart"></div>
-    <!-- <div class="container">
-      <h3 class="text-center">P(X≤0.5)=</h3>
-    </div> -->
+    <div class="container mt-5">
+      <h3 id="res2" class="text-center" style="color:darkslategray;"></h3>
+      <h3 id="res3" class="text-center" style="color:darkslategray;"></h3>
+      <h3 id="res4" class="text-center" style="color:darkslategray;"></h3>
+    </div>
   </div>
 
   <!-- Include d3.js from a CDN. -->
