@@ -487,8 +487,8 @@ const normalGraph = (props) => {
     integral.attr("d", area);
 
     const input = document.getElementById("input");
-    const temp = (input.value + "").replace(/-{0,1}[0-9]+\.*[0-9]*/g, rounded);
-    input.value = temp;
+    const temp = (input.value + "").replace( /-?\d+(\.\d{1,})?/g, rounded);
+    // input.value = temp;
 
     let v;
     if (rounded > 0) {
@@ -504,7 +504,9 @@ const normalGraph = (props) => {
     }
     document.getElementById("res").innerHTML = myRound(v, 4);
   };
-  updateData(ini);
+  console.log(ini);
+  if (ini)
+    updateData(ini);
 };
 
 export { normalGraph };

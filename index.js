@@ -1,6 +1,7 @@
 // Sample dataset. In a real application, you will probably get this data from another source such as AJAX.
 // var data = 2;
 import { normalGraph } from "./normalGraph.js";
+import { myRound } from "./utils.js";
 
 const height = 200;
 const width = 500;
@@ -19,7 +20,8 @@ const error = (x) => {
   else document.getElementById("alert").innerHTML = d;
 };
 // const regex = /P\((.)((<|>)=*)(-{0,1}[0-9]+\.{0,1}[0-9]*)\)/g;
-const regex = /P\((.)((<|>)=?)(\-?[0-9]+\.?[0-9]*)\)/i;
+const regex = /P\(.((<|>)=?)(-?\d+(\.\d{1,})?)\)/i;
+const isNumber = /-?\d+(\.\d{1,})?/i;
 
 const inputChange = (e) => {
   document.getElementById("alert").classList.add("invisible");
@@ -27,9 +29,11 @@ const inputChange = (e) => {
 
   const input = document.getElementById("input").value;
   const inputA = regex.exec(input);
+  console.log('hola');
   if (inputA) {
+    console.log(inputA);
     const X = inputA[1];
-    const condition = inputA[3];
+    const condition = inputA[2];
     const ini = +inputA[4];
     if (condition == ">") mayorQue = true;
     else mayorQue = false;
@@ -39,64 +43,135 @@ const inputChange = (e) => {
 };
 // normalGraph({margin,width,height,ini,fin,mayorQue});
 
-const inputChange2 = () => {
+const kChange = () => {
   document.getElementById("alert").classList.add("invisible");
   document.getElementById("alert").classList.remove("visible");
 
-  const isNumber = /-?[0-9]+\.?[0-9]*/i;
-
   let mu = document.getElementById("mu").value;
   let sigma = document.getElementById("sigma").value;
+  let k = document.getElementById("k").value;
 
-  if (!isNumber.test(sigma) && sigma != "")
-    return error(". σ debe ser un numero");
-  else if (+sigma <= 0 && sigma != "") return error(". σ>0");
-  if (!isNumber.test(mu) && mu != "") return error(". μ debe ser un numero");
-
+  // Que hago aca???
   mu = +mu ? +mu : 0;
   sigma = +sigma ? +sigma : 1;
 
-  console.log(mu, sigma);
-  const i = document.getElementById("input2").value + "";
-  console.log(i);
+  if(k!=''){
+    const i = document.getElementById("input").value + "";
+    console.log(i);
+    const x= k*sigma+mu
 
-  const inputB = regex.exec(i);
-  console.log(inputB);
-  if (inputB) {
-    const x = +inputB[4];
-    const t = i.replace(isNumber, (x - mu) / sigma);
-    document.getElementById("input").value = t;
-    inputChange();
-  } else return error("DFs");
+    const inputB = regex.exec(i);
+    console.log('b' + inputB);
+    document.getElementById("input").value=i.replace(isNumber,x)
 
-  let t = "= ";
-  let t2 = "";
-  if (i[3] == ">") {
-    t += (document.getElementById("input").value + "").replace(
-      /((<|>)=?)/i,
-      "≥"
-    );
-    t2 += (document.getElementById("input2").value + "").replace(
-      /((<|>)=?)/i,
-      "≥"
-    );
-  } else {
-    t += (document.getElementById("input").value + "").replace(
-      /((<|>)=?)/i,
-      "≤"
-    );
-    t2 += (document.getElementById("input2").value + "").replace(
-      /((<|>)=?)/i,
-      "≤"
-    );
   }
-  t2 += `; μ:${mu}; σ:${sigma}`;
-  t += `; μ:${0}; σ:${1}`;
-  document.getElementById("res2").innerHTML = t2;
-  document.getElementById("res3").innerHTML = t;
-  document.getElementById("res4").innerHTML =
-    "= " + document.getElementById("res").innerHTML;
+  // console.log(mu, sigma);
+  // const i = document.getElementById("k").value + "";
+  // console.log(i);
+
+  // const inputB = regex.exec(i);
+  // console.log('b' + inputB);
+  // if (inputB) {
+  //   const x = +inputB[4];
+  //   const t = i.replace(isNumber, (x - mu) / sigma);
+  //   document.getElementById("input").value = t;
+  //   inputChange();
+  // } else return error("DFs");
+
+  // let t = "= ";
+  // let t2 = "";
+  // if (i[3] == ">") {
+  //   t += (document.getElementById("input").value + "").replace(
+  //     /((<|>)=?)/i,
+  //     "≥"
+  //   );
+  //   t2 += (document.getElementById("k").value + "").replace(
+  //     /((<|>)=?)/i,
+  //     "≥"
+  //   );
+  // } else {
+  //   t += (document.getElementById("input").value + "").replace(
+  //     /((<|>)=?)/i,
+  //     "≤"
+  //   );
+  //   t2 += (document.getElementById("k").value + "").replace(
+  //     /((<|>)=?)/i,
+  //     "≤"
+  //   );
+  // }
+  // t2 += `; μ:${mu}; σ:${sigma}`;
+  // t += `; μ:${0}; σ:${1}`;
+  // document.getElementById("res2").innerHTML = t2;
+  // document.getElementById("res3").innerHTML = t;
+  // document.getElementById("res4").innerHTML =
+  //   "= " + document.getElementById("res").innerHTML;
 };
+
+
+const muChange = () =>{
+  const updatek = () =>{
+    const i = document.getElementById("input").value + ""
+    console.log(i)
+    const inputB = regex.exec(i);
+    console.log('b' + inputB);
+    if (inputB) {
+      const x = +inputB[3];
+      console.log(x)
+      let sum = (x - mu) / sigma
+      console.log('x',x,'mu',mu,'sigma',sigma,'sum',sum);
+      const t = i.replace(isNumber, sum);
+      console.log(myRound(sum,2));
+      document.getElementById("k").value = myRound(sum,2);
+    } else return error("DFs");
+  }
+  document.getElementById("alert").classList.add("invisible");
+  document.getElementById("alert").classList.remove("visible");
+
+  let mu = document.getElementById("mu").value;
+  let sigma = document.getElementById("sigma").value;
+  let k = document.getElementById("k").value;
+
+  if (!isNumber.test(mu) && mu != "")
+    return error(". μ debe ser un numero");
+
+  const otherInputEmpty = sigma!='';
+  if(otherInputEmpty)
+    updatek();
+}
+
+
+const sigmaChange = () =>{
+  const updatesigma = () =>{
+    const i = document.getElementById("input").value + ""
+    console.log(i)
+    const inputB = regex.exec(i);
+    console.log('b' + inputB);
+    if (inputB) {
+      const x = +inputB[3];
+      console.log(x)
+      let sum = (x - mu) / sigma
+      console.log('x',x,'mu',mu,'sigma',sigma,'sum',sum);
+      const t = i.replace(isNumber, sum);
+      console.log(myRound(sum,2));
+      document.getElementById("k").value = myRound(sum,2);
+    } else return error("DFs");
+  }
+  document.getElementById("alert").classList.add("invisible");
+  document.getElementById("alert").classList.remove("visible");
+
+  let mu = document.getElementById("mu").value;
+  let sigma = document.getElementById("sigma").value;
+  let k = document.getElementById("k").value;
+
+  if (!isNumber.test(mu) && mu != "")
+    return error(". σ debe ser un numero");
+  else if (+sigma <= 0 && sigma != "")
+    return error(". σ>0; debe ser positivo");
+
+  const otherInputEmpty = mu!='';
+  if(otherInputEmpty)
+    updatesigma();
+}
 
 const resChange = (value) => {
   collapse = document.getElementById("alert").classList.contains("show");
@@ -106,9 +181,9 @@ const resChange = (value) => {
 };
 
 document.getElementById("input").addEventListener("input", inputChange);
-document.getElementById("mu").addEventListener("input", inputChange2);
-document.getElementById("sigma").addEventListener("input", inputChange2);
-document.getElementById("input2").addEventListener("input", inputChange2);
+document.getElementById("mu").addEventListener("input", muChange);
+document.getElementById("sigma").addEventListener("input", sigmaChange);
+document.getElementById("k").addEventListener("input", kChange);
 document.getElementById("random").addEventListener("click", (e) => {
   document.getElementById("input").value = `P(X${
     Math.random(1) > 0.5 ? ">" : "<"
