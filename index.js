@@ -23,23 +23,44 @@ const error = (x) => {
 const regex = /P\(.((<|>)=?)(-?\d+(\.\d{1,})?)\)/i;
 const isNumber = /-?\d+(\.\d{1,})?/i;
 
+
+const calculateNormal = (ini, fin=4)=>{
+  normalGraph({ margin, width, height, ini, fin, mayorQue });
+}
+
 const inputChange = (e) => {
   document.getElementById("alert").classList.add("invisible");
   document.getElementById("alert").classList.remove("visible");
 
   const input = document.getElementById("input").value;
-  const inputA = regex.exec(input);
-  console.log('hola');
-  if (inputA) {
-    console.log(inputA);
-    const X = inputA[1];
-    const condition = inputA[2];
-    const ini = +inputA[4];
-    if (condition == ">") mayorQue = true;
-    else mayorQue = false;
+  const k = document.getElementById("k").value;
+  const mu = document.getElementById("mu").value;
+  const sigma = document.getElementById("sigma").value;
+  let sum = 0;
+  const inputB=regex.exec(input)
+  const x = +inputB[3];
 
-    normalGraph({ margin, width, height, ini, fin, mayorQue });
-  } else error("bb");
+  if( mu=='' || sigma=='')
+    sum = x;
+  else{
+    sum = (x - mu) / sigma
+    console.log('x',x,'mu',mu,'sigma',sigma);
+  }
+  document.getElementById("k").value = myRound(sum,2);
+  calculateNormal( myRound(sum,2));
+
+  // const inputA = regex.exec(input);
+  // console.log('hola');
+  // if (inputA) {
+  //   console.log(inputA);
+  //   const X = inputA[1];
+  //   const condition = inputA[2];
+  //   const ini = +inputA[4];
+  //   if (condition == ">") mayorQue = true;
+  //   else mayorQue = false;
+
+  //   normalGraph({ margin, width, height, ini, fin, mayorQue });
+  // } else error("bb");
 };
 // normalGraph({margin,width,height,ini,fin,mayorQue});
 
@@ -55,16 +76,19 @@ const kChange = () => {
   mu = +mu ? +mu : 0;
   sigma = +sigma ? +sigma : 1;
 
-  if(k!=''){
+  if(k=='')
+    return ;
+  else{
     const i = document.getElementById("input").value + "";
     console.log(i);
     const x= k*sigma+mu
 
     const inputB = regex.exec(i);
     console.log('b' + inputB);
-    document.getElementById("input").value=i.replace(isNumber,x)
+    document.getElementById("input").value=i.replace(/(-?\d+(\.\d{1,})?)|NaN/,x)
 
   }
+  calculateNormal(k);
   // console.log(mu, sigma);
   // const i = document.getElementById("k").value + "";
   // console.log(i);
@@ -122,6 +146,7 @@ const muChange = () =>{
       const t = i.replace(isNumber, sum);
       console.log(myRound(sum,2));
       document.getElementById("k").value = myRound(sum,2);
+      calculateNormal( myRound(sum,2));
     } else return error("DFs");
   }
   document.getElementById("alert").classList.add("invisible");
@@ -154,6 +179,8 @@ const sigmaChange = () =>{
       const t = i.replace(isNumber, sum);
       console.log(myRound(sum,2));
       document.getElementById("k").value = myRound(sum,2);
+      calculateNormal( myRound(sum,2));
+      
     } else return error("DFs");
   }
   document.getElementById("alert").classList.add("invisible");

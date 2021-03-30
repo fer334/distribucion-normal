@@ -504,6 +504,7 @@ const normalGraph = (props) => {
     }
     document.getElementById("res").innerHTML = myRound(v, 4);
   };
+  
   console.log(ini);
   if (ini)
     updateData(ini);
