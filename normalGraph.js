@@ -366,6 +366,7 @@ const z = [
 
 const normalGraph = (props) => {
   const { margin, width, height, ini, fin, mayorQue } = props;
+  console.log(ini);
 
   d3.selectAll("#my-chart > *").remove();
 
@@ -469,11 +470,11 @@ const normalGraph = (props) => {
 
   selector
     .append("text")
-    .text("x")
+    .text("k")
     .attr("transform", "translate(1," + -55 + ")")
     .style("text-anchor", "middle");
 
-  var dragHandler = d3.drag().on("drag", function (event) {
+  dragHandlerFunction = (event)=>{
     selector.attr("transform", `translate(${event.x},${height / 2})`);
     const newk = myRound(convertToRange(event.x),2)
     document.getElementById('k').value=newk
@@ -494,12 +495,18 @@ const normalGraph = (props) => {
     document.getElementById("input").value=i.replace(/(-?\d+(\.\d{1,})?)|NaN/,x)
     //actualizar k
     updateData(newk)
-  });
+    
+  }
+
+  var dragHandler = d3.drag().on("drag", dragHandlerFunction);
+  var moveHandler = d3.drag().on("touchmove", dragHandlerFunction);
 
   dragHandler(selector);
+  moveHandler(selector);
 
   const updateData = (x) => {
     const rounded = myRound(x, 2);
+    console.log(rounded);
 
     integral.datum(setIntegral(x, fin, mayorQue));
     integral.attr("d", area);
@@ -509,7 +516,7 @@ const normalGraph = (props) => {
     // input.value = temp;
 
     let v;
-    if (rounded > 0) {
+    if (rounded >= 0) {
       z.push({ x: rounded, y: 0.5 });
       v = z.find((a) => a.x == rounded).y;
       if (mayorQue) v = 0.5 - v;
@@ -524,7 +531,7 @@ const normalGraph = (props) => {
   };
   
   console.log(ini);
-  if (ini)
+  if(ini!=null)
     updateData(ini);
 };
 

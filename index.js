@@ -38,6 +38,7 @@ const inputChange = (e) => {
   const sigma = document.getElementById("sigma").value;
   let sum = 0;
   const inputB=regex.exec(input)
+  console.log(inputB);
   const x = +inputB[3];
 
   if( mu=='' || sigma=='')
