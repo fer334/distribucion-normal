@@ -474,7 +474,7 @@ const normalGraph = (props) => {
     .attr("transform", "translate(1," + -55 + ")")
     .style("text-anchor", "middle");
 
-  dragHandlerFunction = (event)=>{
+  var dragHandler = d3.drag().on("drag", function (event) {
     selector.attr("transform", `translate(${event.x},${height / 2})`);
     const newk = myRound(convertToRange(event.x),2)
     document.getElementById('k').value=newk
@@ -495,14 +495,9 @@ const normalGraph = (props) => {
     document.getElementById("input").value=i.replace(/(-?\d+(\.\d{1,})?)|NaN/,x)
     //actualizar k
     updateData(newk)
-    
-  }
-
-  var dragHandler = d3.drag().on("drag", dragHandlerFunction);
-  var moveHandler = d3.drag().on("touchmove", dragHandlerFunction);
+  });
 
   dragHandler(selector);
-  moveHandler(selector);
 
   const updateData = (x) => {
     const rounded = myRound(x, 2);
