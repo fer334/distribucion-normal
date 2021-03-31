@@ -475,7 +475,25 @@ const normalGraph = (props) => {
 
   var dragHandler = d3.drag().on("drag", function (event) {
     selector.attr("transform", `translate(${event.x},${height / 2})`);
-    updateData(convertToRange(event.x));
+    const newk = myRound(convertToRange(event.x),2)
+    document.getElementById('k').value=newk
+    console.log(newk);
+
+    const i = document.getElementById("input").value + "";
+    let sigma = document.getElementById("sigma").value + "";
+    let mu = document.getElementById("mu").value + "";
+    // setear los campos si estan vacios
+    mu = +mu ? +mu : 0;
+    sigma = +sigma ? +sigma : 1;
+
+    console.log(i);
+    const x= newk*sigma+mu
+
+    const inputB = /P\(.((<|>)=?)(-?\d+(\.\d{1,})?)\)/.exec(i);
+    console.log('b' + inputB);
+    document.getElementById("input").value=i.replace(/(-?\d+(\.\d{1,})?)|NaN/,x)
+    //actualizar k
+    updateData(newk)
   });
 
   dragHandler(selector);

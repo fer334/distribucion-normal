@@ -72,7 +72,7 @@ const kChange = () => {
   let sigma = document.getElementById("sigma").value;
   let k = document.getElementById("k").value;
 
-  // Que hago aca???
+  // setear los campos si estan vacios
   mu = +mu ? +mu : 0;
   sigma = +sigma ? +sigma : 1;
 
